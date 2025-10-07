@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class FPController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class FPController : MonoBehaviour
     [SerializeField] private float sprintMultiplier = 2;
     [SerializeField] private KeyCode sprintKey;
     [SerializeField] private KeyCode crouchKey;
+    public KeyCode interactKey;
 
 
     [Header("Jumping")]
@@ -21,6 +23,15 @@ public class FPController : MonoBehaviour
     [Header("Look Sensitivity")]
     [SerializeField] private float mouseSensitivity = 2;
     [SerializeField] private float upDownRange = 80;
+
+    [Header("Flashlight")]
+    [SerializeField] private bool flashLightEnabled;
+    [SerializeField] private Light flashlight;
+    [SerializeField] private KeyCode flashlightKey;
+
+
+    [Header("UI")]
+    [SerializeField] private Sprite reticle;
 
     [Header("Footsteps")]
     [SerializeField] private bool footstepsEnabled = true;
@@ -47,11 +58,13 @@ public class FPController : MonoBehaviour
     private Camera mainCamera;
     private GameObject currentSurface;
     private GameObject objectInFocus;
+    public GameObject ObjectInFocus { get { return objectInFocus; } }
 
  
 
     private CharacterController characterController;
     private bool isMoving;
+
 
 
     void Start()
@@ -72,12 +85,25 @@ public class FPController : MonoBehaviour
         HandleRotation();
         HandleCrouching();
         CheckObjectInFocus();
+        HandleFlashlight();
 
         if (isMoving) CheckGround();
         if (footstepsEnabled)HandleFootsteps();
+    }
 
+
+
+    void HandleFlashlight()
+    {
+        if (!flashLightEnabled) return;
+
+        if (Input.GetKeyDown(flashlightKey))
+        {
+            flashlight.enabled = !flashlight.enabled;
+        }
 
     }
+
 
     void HandleMovement()
     {

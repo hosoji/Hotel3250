@@ -3,13 +3,22 @@ using UnityEngine;
 public class DoorTriggers : MonoBehaviour
 {
     private bool playerInRange = false;
+    private FPController player;
     public Door door;
 
+    private void Start()
+    {
+        player = GameObject.Find("Player").GetComponent<FPController>();
+        
+    }
     private void Update()
     {
-        if (playerInRange && Input.GetKeyDown(KeyCode.E))
+        if (playerInRange && DoorIsInteractable())
         {
-            door.Interact();
+            if (Input.GetKeyDown(player.interactKey) || Input.GetMouseButtonDown(0))
+            {
+                door.Interact();
+            }
         }
     }
 
@@ -27,4 +36,10 @@ public class DoorTriggers : MonoBehaviour
 
     }
 
+    bool DoorIsInteractable()
+    {
+        var d = player.ObjectInFocus.GetComponent<Door>();
+        var playerLookingAtDoor = d != null;
+        return playerLookingAtDoor && d == door; 
+    }
 }
