@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System;
 
 public class FPController : MonoBehaviour
 {
@@ -58,12 +59,15 @@ public class FPController : MonoBehaviour
     private Camera mainCamera;
     private GameObject currentSurface;
     private GameObject objectInFocus;
+    private GameObject lastObjectInFocus;
     public GameObject ObjectInFocus { get { return objectInFocus; } }
 
- 
+    public static event Action<GameObject,float> InFocusAtDistance;
+
 
     private CharacterController characterController;
     private bool isMoving;
+
 
 
 
@@ -89,6 +93,14 @@ public class FPController : MonoBehaviour
 
         if (isMoving) CheckGround();
         if (footstepsEnabled)HandleFootsteps();
+
+        if (objectInFocus != null && lastObjectInFocus != objectInFocus)
+        {
+            float dist = Vector3.Distance(transform.position, objectInFocus.transform.position);
+            InFocusAtDistance?.Invoke(objectInFocus,dist);
+            lastObjectInFocus = objectInFocus;
+        } 
+
     }
 
 
@@ -214,7 +226,7 @@ public class FPController : MonoBehaviour
         }
         else
         {
-            randomIndex = Random.Range(0, footstepSounds.Length - 1);
+            randomIndex = UnityEngine.Random.Range(0, footstepSounds.Length - 1);
             if (randomIndex >= lastPlayedIndex)
             {
                 randomIndex++;
@@ -223,7 +235,7 @@ public class FPController : MonoBehaviour
 
         lastPlayedIndex = randomIndex;
         footstepSource.clip = footstepSounds[randomIndex];
-        footstepSource.pitch = Random.Range(minPitch, maxPitch);
+        footstepSource.pitch = UnityEngine.Random.Range(minPitch, maxPitch);
         footstepSource.Play();
     }
 
