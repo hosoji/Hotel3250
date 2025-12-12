@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class Door : MonoBehaviour
 { 
@@ -24,7 +25,10 @@ public class Door : MonoBehaviour
 
     private AudioSource doorSource;
 
-    
+    public static event Action<float, Door> DoorOpening;
+    public static event Action<float, Door> DoorClosing;
+
+
 
 
     void Start()
@@ -55,7 +59,15 @@ public class Door : MonoBehaviour
 
         doorActive = true;
 
-        if (!doorOpen) PlayDoorOpenSound();
+        if (!doorOpen)
+        {
+            PlayDoorOpenSound();
+            DoorOpening?.Invoke(doorOpeningTime, this);
+        }
+        else
+        {
+            DoorClosing?.Invoke(doorOpeningTime, this);
+        }
 
     }
 

@@ -61,6 +61,7 @@ public class FPController : MonoBehaviour
     private GameObject objectInFocus;
     private GameObject lastObjectInFocus;
     public GameObject ObjectInFocus { get { return objectInFocus; } }
+    public GameObject CurrentSurface { get { return currentSurface; } }
 
     public static event Action<GameObject,float> InFocusAtDistance;
 
