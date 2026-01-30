@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ConsoleAlt
+  m_Name: ConsoleAltParent
   m_Shader: {fileID: 4800000, guid: 0087d6149919148929edeb1da91af327, type: 3}
-  m_Parent: {fileID: 2100000, guid: bf081af1adce548549ea80919f09c5eb, type: 2}
+  m_Parent: {fileID: 2100000, guid: 3c8bf9a26fbd14d9b81addd76a05fe5f, type: 2}
   m_ModifiedSerializedProperties: 2
   m_ValidKeywords: []
   m_InvalidKeywords:
@@ -47,7 +47,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: b641bcb87cf1c47adbc7ced3f398eb12, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
