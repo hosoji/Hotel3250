@@ -5,7 +5,7 @@ public class Door : MonoBehaviour
 { 
     public Transform[] doorKnobs;
 
-    private float yAngleOpen = 115;
+    private float yAngleOpen = 95;
     private float xAngleKnob = -45;
     private Vector3 doorOpenRot;
     private Vector3 knobOpenRot;
@@ -19,6 +19,7 @@ public class Door : MonoBehaviour
     private bool doorActive = false;
     public bool doorOpen = false;
     public bool inverted;
+
 
     public AudioClip doorOpenSound;
     public AudioClip doorCloseSound;
@@ -48,6 +49,9 @@ public class Door : MonoBehaviour
         HandleDoor();
         
     }
+
+
+
 
     public void Interact()
     {

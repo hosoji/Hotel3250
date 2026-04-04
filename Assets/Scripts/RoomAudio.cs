@@ -3,14 +3,14 @@ using UnityEngine.Audio;
 
 public class RoomAudio : MonoBehaviour
 {
-    public Room room;
+    private Room room;
     private FPController player;
     private bool playerInRoom;
     private bool doorOpen;
 
     public AudioMixer mixer;
     public AudioMixerSnapshot roomSS;
-    public AudioMixerSnapshot corridor_doorOpenSS;
+    //public AudioMixerSnapshot corridor_doorOpenSS;
     public AudioMixerSnapshot corridor_doorClosedSS;
 
     public float ssTransitionTime = 0;
@@ -34,6 +34,7 @@ public class RoomAudio : MonoBehaviour
     private void Start()
     {
         player = GameObject.Find("Player").GetComponent<FPController>();
+        room = GetComponent<Room>();
         
     }
 
@@ -52,9 +53,9 @@ public class RoomAudio : MonoBehaviour
         }
 
 
-        if (player.CurrentSurface.CompareTag("Rug") || !playerInRoom)
+        if (player.CurrentSurface.CompareTag("Rug") )
         {
-            mixer.SetFloat("footstepCutoff", 360);
+            mixer.SetFloat("footstepCutoff", 200);
         }
         else
         {
@@ -66,7 +67,7 @@ public class RoomAudio : MonoBehaviour
 
     private void DoorSnapshotTransitions(float time, Door door)
     {
-        if (door != room.door) return;
+        if (door != room.door || playerInRoom) return;
 
         if (doorOpen)
         {
@@ -75,7 +76,7 @@ public class RoomAudio : MonoBehaviour
         }
         else
         {
-            corridor_doorOpenSS.TransitionTo(time);
+            roomSS.TransitionTo(time);
 
         }
 
