@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
+using Unity.VisualScripting;
 
 public class FPController : MonoBehaviour
 {
@@ -32,7 +33,9 @@ public class FPController : MonoBehaviour
 
 
     [Header("UI")]
-    [SerializeField] private Sprite reticle;
+    [SerializeField] private Image reticle;
+    private Color defaultColor;
+    [SerializeField] private Color highlightColor ;
 
     [Header("Footsteps")]
     [SerializeField] private bool footstepsEnabled = true;
@@ -82,6 +85,8 @@ public class FPController : MonoBehaviour
         defaultCameraHeight = mainCamera.transform.localPosition.y;
         standingPos = new Vector3(0, defaultCameraHeight, 0);
         crouchedPos = new Vector3(0, crouchCameraHeight, 0);
+
+        defaultColor = reticle.color;
     }
 
     private void Update()
@@ -100,8 +105,24 @@ public class FPController : MonoBehaviour
             float dist = Vector3.Distance(transform.position, objectInFocus.transform.position);
             InFocusAtDistance?.Invoke(objectInFocus,dist);
             lastObjectInFocus = objectInFocus;
-        } 
+        }
 
+        reticle.color = HighlightReticle(); 
+
+    }
+
+    private Color HighlightReticle()
+    {
+        Color result = defaultColor;
+
+        if (objectInFocus != null && objectInFocus.GetComponent<Door>() != null)
+        {
+            result = highlightColor;
+        }
+
+        return result;
+
+        
     }
 
 

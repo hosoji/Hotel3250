@@ -3,6 +3,7 @@ using System;
 
 public class Door : MonoBehaviour
 { 
+    public bool isLocked = false;
     public Transform[] doorKnobs;
 
     private float yAngleOpen = 95;
@@ -23,6 +24,7 @@ public class Door : MonoBehaviour
 
     public AudioClip doorOpenSound;
     public AudioClip doorCloseSound;
+    public AudioClip doorLocked;
 
     private AudioSource doorSource;
 
@@ -55,6 +57,12 @@ public class Door : MonoBehaviour
 
     public void Interact()
     {
+        if (isLocked)
+        {
+            PlayDoorLockedSound();
+            return;
+        }
+
         foreach(var knob in doorKnobs)
         {
             knob.localRotation = Quaternion.Euler(knobOpenRot);
@@ -148,6 +156,12 @@ public class Door : MonoBehaviour
     void PlayDoorCloseSound()
     {
         doorSource.clip = doorCloseSound;
+        doorSource.Play();
+    }
+
+    void PlayDoorLockedSound()
+    {
+        doorSource.clip = doorLocked;
         doorSource.Play();
     }
 
