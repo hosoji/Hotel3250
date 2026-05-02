@@ -105,25 +105,13 @@ public class FPController : MonoBehaviour
             float dist = Vector3.Distance(transform.position, objectInFocus.transform.position);
             InFocusAtDistance?.Invoke(objectInFocus,dist);
             lastObjectInFocus = objectInFocus;
+
         }
 
-        reticle.color = HighlightReticle(); 
+        reticle.color = HasDoorInFocus()? highlightColor:defaultColor ; 
 
     }
 
-    private Color HighlightReticle()
-    {
-        Color result = defaultColor;
-
-        if (objectInFocus != null && objectInFocus.GetComponent<Door>() != null)
-        {
-            result = highlightColor;
-        }
-
-        return result;
-
-        
-    }
 
 
 
@@ -286,6 +274,20 @@ public class FPController : MonoBehaviour
             }
         }
 
+    }
+
+    bool HasDoorInFocus()
+    {
+        bool status = false;
+
+        RaycastHit hit;
+        if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit))
+        {
+            status =  hit.transform.gameObject.GetComponent<Door>() != null;
+
+        }
+
+        return status;
     }
 
 
